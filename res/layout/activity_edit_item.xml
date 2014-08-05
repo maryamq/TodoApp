@@ -9,7 +9,7 @@
     tools:context="com.maryamq.codepath.simpletodo.EditItemActivity" >
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/etEditItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView1"
@@ -18,15 +18,6 @@
         android:ems="10"
         android:inputType="textMultiLine" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText1"
-        android:layout_below="@+id/editText1"
-        android:layout_marginTop="22dp"
-        android:text="@string/save" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -34,5 +25,14 @@
         android:layout_alignParentTop="true"
         android:text="@string/edit_item_below"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onSave"
+        android:layout_alignLeft="@+id/etEditItem"
+        android:layout_below="@+id/etEditItem"
+        android:text="@string/save" />
 
 </RelativeLayout>
