@@ -1,7 +1,7 @@
 # Basic Todo App Demo
 
 This is an Andriod demo application for keeping track of your todo list.
- See the [Andriod Bootcamp prework](https://gist.github.com/nesquena/843228e83fdc4f5ddc4e) on our cliffnotes for a step-by-step tutorial.
+ See the [Andriod Bootcamp prework](https://gist.github.com/nesquena/843228e83fdc4f5ddc4e) for a step-by-step tutorial.
 
 Time spent: 2.5 hours spent in total
 
