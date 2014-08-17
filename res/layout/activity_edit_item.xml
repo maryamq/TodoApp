@@ -26,13 +26,65 @@
         android:text="@string/edit_item_below"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/button1"
+    <RatingBar
+        android:id="@+id/rtPriority"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onSave"
-        android:layout_alignLeft="@+id/etEditItem"
         android:layout_below="@+id/etEditItem"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="21dp"
+        android:layout_toRightOf="@+id/lblRating"
+        android:numStars="3" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="26dp"
+        android:layout_toRightOf="@+id/etEditItem"
+        android:onClick="onSave"
         android:text="@string/save" />
+
+    <TextView
+        android:id="@+id/lblRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/etEditItem"
+        android:layout_alignTop="@+id/rtPriority"
+        android:layout_marginTop="16dp"
+        android:text="@string/Priority"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imgBtnDate"
+        android:layout_alignLeft="@+id/lblRating"
+        android:layout_below="@+id/rtPriority"
+        android:layout_toLeftOf="@+id/imgBtnDate"
+        android:hint="@string/due_date" />
+
+    <ImageButton
+        android:id="@+id/imgBtnDate"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignRight="@+id/rtPriority"
+        android:layout_below="@+id/rtPriority"
+        android:layout_marginRight="15dp"
+        android:onClick="onSetDueDate"
+        android:scaleType="center"
+        android:src="@drawable/calendar"/>
+
+    <ImageButton
+        android:id="@+id/imgBtnRemoveDate"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/rtPriority"
+        android:layout_toRightOf="@+id/rtPriority"
+        android:onClick="onRemoveDate"
+        android:scaleType="center"
+        android:src="@drawable/ic_remove_date" />
 
 </RelativeLayout>

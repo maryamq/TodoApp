@@ -3,8 +3,11 @@ package com.maryamq.codepath.simpletodo;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,11 +19,12 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	private ArrayList<String> todoItems;
-	private ArrayAdapter<String> todoAdapter;
+	private ArrayList<TaskDetails> todoItems;
+	private ArrayAdapter<TaskDetails> todoAdapter;
 	private ListView lvItems;
 	private EditText etNewItem;
 
@@ -30,9 +34,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		lvItems = (ListView) this.findViewById(R.id.lvItems);
 		etNewItem = (EditText) this.findViewById(R.id.etNewItem);
+
 		readItems();
-		todoAdapter = new ArrayAdapter<String>(getBaseContext(),
-				android.R.layout.simple_list_item_1, todoItems);
+		todoAdapter = new TasksAdapter(getBaseContext(), todoItems);
 		// Attach the adapter
 		lvItems.setAdapter(todoAdapter);
 		setupListViewListener();
@@ -49,13 +53,14 @@ public class MainActivity extends Activity {
 				// error
 				throw new RuntimeException("Position is -1");
 			}
-			String text = data.getStringExtra("text");
-			this.todoItems.set(position, text);
+			String json = data.getStringExtra("task");
+			TaskDetails newTask = new TaskDetails(json);
+			this.todoItems.remove(position);
+			this.todoItems.add(position, newTask);
+			
 			this.todoAdapter.notifyDataSetChanged();
 			this.writeItems();
 			this.showToast("Item updated.");
-
-			// Toast.makeText(this, name, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -73,7 +78,13 @@ public class MainActivity extends Activity {
 					int position, long id) {
 				Intent i = new Intent(MainActivity.this, EditItemActivity.class);
 				i.putExtra("position", position);
-				i.putExtra("text", todoItems.get(position));
+				// Pass the encoded task object.
+				try {
+					i.putExtra("task", todoItems.get(position).asJsonObject().toString());
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				startActivityForResult(i, EditItemActivity.UPDATE_CODE);
 			}
 		});
@@ -93,30 +104,36 @@ public class MainActivity extends Activity {
 	}
 
 	private void readItems() {
+		todoItems = new ArrayList<TaskDetails>();
 		File fileDir = getFilesDir();
-		File todoFile = new File(fileDir, "todo.txt");
-		try {
-			todoItems = new ArrayList<String>(FileUtils.readLines(todoFile));
-		} catch (IOException e) {
-			todoItems = new ArrayList<String>();
+		File todoFile = new File(fileDir, "todo.json");
+		ArrayList<String> jsonStrings = new ArrayList<String>();
+		try { 
+			jsonStrings = new ArrayList<String>(FileUtils.readLines(todoFile));
+			todoItems = TaskDetails.fromJson(jsonStrings);
+		}  catch (IOException e) { 
+			todoItems.clear();
 		}
 	}
 
 	private void writeItems() {
 		File fileDir = getFilesDir();
-		File todoFile = new File(fileDir, "todo.txt");
-		try {
-			FileUtils.writeLines(todoFile, todoItems);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		File todoFile = new File(fileDir, "todo.json");
+	    try { 
+	    	FileUtils.writeLines(todoFile, todoItems); 
+	    }catch (IOException e) {
+	    	e.printStackTrace(); 
+	    	this.showToast("Unable to save changes");
+	    }
 	}
 
 	public void onAddedItem(View v) {
 		String text = etNewItem.getText().toString();
 		etNewItem.setText("");
-		todoAdapter.add(text);
+		TaskDetails task = new TaskDetails();
+		task.setTask(text);
+		task.setPriority(1);
+		todoAdapter.add(task);
 		writeItems();
 		this.showToast("Item added");
 	}
