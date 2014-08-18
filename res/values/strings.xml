@@ -10,7 +10,7 @@
     <string name="edit_item_below">Edit Item Below:</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="Priority">priority</string>
+    <string name="Priority">Priority: </string>
     <string name="date">Date</string>
     <string name="due_date">Due Date</string>
     <string name="due_time">Due Time</string>

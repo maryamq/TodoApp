@@ -7,6 +7,9 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +17,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 
 public class EditItemActivity extends Activity {
@@ -34,6 +38,26 @@ public class EditItemActivity extends Activity {
 		etEditItem = (EditText) this.findViewById(R.id.etEditItem);
 		tvDate = (TextView) this.findViewById(R.id.tvDate);
 		rtPriority = (RatingBar) this.findViewById(R.id.rtPriority);
+		rtPriority.setStepSize(1);
+		rtPriority.setOnRatingBarChangeListener(new OnRatingBarChangeListener() {
+			public void onRatingChanged(RatingBar ratingBar, float rating,
+				boolean fromUser) {
+				int color;
+				switch((int)rating) {
+				case 2:
+					color = Color.YELLOW;
+					break;
+				case 3:
+					color = Color.RED;
+					break;
+				default:
+					color = Color.BLUE;
+					break;
+				}
+				LayerDrawable stars = (LayerDrawable) rtPriority.getProgressDrawable();
+				stars.getDrawable(2).setColorFilter(color, Mode.SRC_ATOP);
+			}
+		});
 	
 		position = getIntent().getIntExtra("position", -1);
 		// Extract Task details json.

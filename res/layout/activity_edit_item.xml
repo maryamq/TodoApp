@@ -64,7 +64,9 @@
         android:layout_alignLeft="@+id/lblRating"
         android:layout_below="@+id/rtPriority"
         android:layout_toLeftOf="@+id/imgBtnDate"
-        android:hint="@string/due_date" />
+        android:hint="@string/due_date"
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        />
 
     <ImageButton
         android:id="@+id/imgBtnDate"
